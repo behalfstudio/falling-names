@@ -81,6 +81,8 @@ function addName() {
     window.setTimeout(function () {
       filterCollisions(true);
     }, TIMEOUT);
+
+    letterCount = 0;
   }
 
   for (var k = 0; k < newName.length; k++) {
