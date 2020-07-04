@@ -76,14 +76,12 @@ function addName() {
     }
   }
 
-  /*
   if (letterCount + validCharacters >= MAX_LETTER_COUNT) {
     filterCollisions(false);
     window.setTimeout(function () {
       filterCollisions(true);
     }, TIMEOUT);
   }
-  */
 
   for (var k = 0; k < newName.length; k++) {
     if (alphabet.includes(newName[k])) {
