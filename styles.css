@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/SpaceGrotesk-Medium.woff") format(woff);
+  src: url("/fonts/SpaceGrotesk-Medium.woff2") format(woff2);
+  src: url("/fonts/SpaceGrotesk-Medium.eot") format(eot);
+}
+
+/*----------------------------------------------------------*/
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+#name_input {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  background-color: white;
+  font-family: "Space Grotesk";
+  padding: 25px;
+}
+
+input {
+  font-family: "Space Grotesk";
+  margin-left: 5px;
+}
