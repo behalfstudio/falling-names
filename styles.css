@@ -20,11 +20,11 @@ body {
   width: auto;
   height: auto;
   background-color: white;
-  font-family: "Space Grotesk";
+  font-family: sans-serif;
   padding: 25px;
 }
 
 input {
-  font-family: "Space Grotesk";
+  font-family: sans-serif;
   margin-left: 5px;
 }
