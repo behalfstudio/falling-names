@@ -15,6 +15,11 @@ body {
   padding: 0;
 }
 
+#falling {
+  margin: 0;
+  padding: 0;
+}
+
 #name_input {
   position: fixed;
   right: 0;
