@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "Space Grot";
+  font-family: "Space Grotesk";
   src: url("assets/fonts/SpaceGrotesk-Medium.woff") format(woff);
   src: url("assets/fonts/SpaceGrotesk-Medium.woff2") format(woff2);
   src: url("assets/fonts/SpaceGrotesk-Medium.eot") format(eot);
@@ -15,7 +15,7 @@ body * {
   padding: 0;
   width: 100vw;
   height: 100vh;
-  font-family: "Space Grot" !important;
+  font-family: "Space Grotesk" !important;
 }
 
 #falling {
