@@ -1,8 +1,9 @@
 @font-face {
-  font-family: "Space Grotesk";
-  src: url("/fonts/SpaceGrotesk-Medium.woff") format(woff);
-  src: url("/fonts/SpaceGrotesk-Medium.woff2") format(woff2);
-  src: url("/fonts/SpaceGrotesk-Medium.eot") format(eot);
+  font-family: "Space Grot";
+  src: url(/assets/fonts/SpaceGrotesk-Medium.woff) format(woff);
+  src: url(/assets/fonts/SpaceGrotesk-Medium.woff2) format(woff2);
+  src: url(/assets/fonts/SpaceGrotesk-Medium.eot) format(eot);
+  font-display: "Space Grotesk";
 }
 
 /*----------------------------------------------------------*/
@@ -11,11 +12,16 @@ html,
 body {
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Space Grot", sans-serif;
 }
 
 #falling {
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 #name_input {
@@ -25,11 +31,9 @@ body {
   width: auto;
   height: auto;
   background-color: white;
-  font-family: sans-serif;
   padding: 25px;
 }
 
 input {
-  font-family: sans-serif;
   margin-left: 5px;
 }

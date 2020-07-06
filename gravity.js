@@ -14,8 +14,9 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const dir = "./assets/svg/";
 var republish = "REPUBLISH";
 
-const MAX_LETTER_COUNT = 40;
-const TIMEOUT = 3000;
+const MAX_LETTER_COUNT = 30;
+
+const TIMEOUT = 8000;
 
 const viewportScaleRate = Math.sqrt(vw * vh) / 4000;
 
@@ -62,119 +63,142 @@ var render = Render.create({
   },
 });
 
-var letterCount = 0;
+var letters = [];
+
+/*------------------------------------------------------------*/
+
+class Letter {
+  constructor(_letter) {
+    this.letter = _letter;
+  }
+
+  createBody(letter) {
+    $.get(dir + letter + ".svg").done(function (data) {
+      var vertexSets = [],
+        color = "#FFF";
+
+      $(data)
+        .find("path")
+        .each(function (i, path) {
+          vertexSets.push(Svg.pathToVertices(path, 10));
+        });
+
+      var randomScale = random(0.4, 1.8);
+
+      this.body = Bodies.fromVertices(
+        random(0, vw),
+        random(-vh, 0),
+        vertexSets,
+        {
+          render: {
+            fillStyle: color,
+            strokeStyle: color,
+            lineWidth: 1,
+          },
+          restitution: 0.2,
+        },
+        true
+      );
+
+      Body.scale(
+        this.body,
+        viewportScaleRate * randomScale,
+        viewportScaleRate * randomScale
+      );
+
+      Body.rotate(this.body, random(-Math.PI / 2, Math.PI / 2));
+
+      Body.collisionFilter = {
+        category: 1,
+      };
+
+      World.add(world, this.body);
+    });
+  }
+
+  removeBody() {}
+}
 
 /*------------------------------------------------------------*/
 
 function addName() {
   var newName = $("#name").val().toUpperCase();
 
-  var validCharacters = 0;
   for (var i = 0; i < newName.length; i++) {
-    if (alphabet.includes(newName[k])) {
-      validCharacters++;
+    if (!alphabet.includes(newName[i])) {
+      newName = newName.substring(0, i) + newName.substring(i + 1);
+      i--;
     }
   }
 
-  if (letterCount + validCharacters >= MAX_LETTER_COUNT) {
-    filterCollisions(false);
+  document.getElementById("name").value = "";
+
+  if (letters.length + newName.length >= MAX_LETTER_COUNT) {
+    Composite.remove(world, inputBox);
+    Composite.remove(world, bottomGround);
+
     window.setTimeout(function () {
-      filterCollisions(true);
-    }, TIMEOUT);
+      for (var i = 0; i < letters.length; i++) {
+        letters.splice(i, 1);
+        i--;
+      }
 
-    letterCount = 0;
-  }
+      var inputBox = Bodies.rectangle(
+        vw - $("#name_input").width() / 2 - 25,
+        vh - $("#name_input").height() / 2 - 25,
+        $("#name_input").width() + 50,
+        $("#name_input").height() + 50,
+        {
+          isStatic: true,
+        }
+      );
+      World.add(world, inputBox);
 
-  for (var k = 0; k < newName.length; k++) {
-    if (alphabet.includes(newName[k])) {
-      letterCount++;
-      console.log(letterCount);
-
-      document.getElementById("name").value = "";
-
-      $.get(dir + newName[k] + ".svg").done(function (data) {
-        var vertexSets = [],
-          color = "#FFF";
-
-        $(data)
-          .find("path")
-          .each(function (i, path) {
-            vertexSets.push(Svg.pathToVertices(path, 10));
-          });
-
-        var randomScale = random(0.4, 1.8);
-
-        var letter = Bodies.fromVertices(
-          random(0, vw),
-          random(-vh, 0),
-          vertexSets,
-          {
-            render: {
-              fillStyle: color,
-              strokeStyle: color,
-              lineWidth: 1,
-            },
-            restitution: 0.2,
+      var bottomGround = Bodies.rectangle(
+        vw / 2,
+        vh + groundThickness / 2,
+        vw + groundThickness * 2,
+        groundThickness,
+        {
+          isStatic: true,
+          collisionFilter: {
+            mask: 1,
           },
-          true
-        );
-
-        Body.scale(
-          letter,
-          viewportScaleRate * randomScale,
-          viewportScaleRate * randomScale
-        );
-
-        Body.rotate(letter, random(-Math.PI / 2, Math.PI / 2));
-
-        Body.collisionFilter = {
-          group: 1,
-        };
-
-        World.add(world, letter);
-      });
-    }
+        }
+      );
+      World.add(world, bottomGround);
+    }, TIMEOUT);
   }
+
+  for (var i = 0; i < newName.length; i++) {
+    var letter = new Letter(newName[i]);
+    letters.push(letter);
+    letters[letters.length - 1].createBody(newName[i]);
+  }
+
+  console.log(letters.length);
 }
 
 function filterCollisions(mode) {
   // turn off
   if (!mode) {
     inputBox.collisionFilter = {
-      group: -1,
+      mask: 2,
     };
     bottomGround.collisionFilter = {
-      group: -1,
+      mask: 2,
     };
 
     console.log("Collision turned off.");
   }
   // turn on
   else {
-    inputBox = Bodies.rectangle(
-      vw - $("#name_input").width() / 2 - 25,
-      vh - $("#name_input").height() / 2 - 25,
-      $("#name_input").width() + 50,
-      $("#name_input").height() + 50,
-      {
-        isStatic: true,
-        collisionFilter: {
-          group: 1,
-        },
-      }
-    );
-    bottomGround = Bodies.rectangle(
-      vw / 2,
-      vh + groundThickness / 2,
-      vw + groundThickness * 2,
-      groundThickness,
-      {
-        isStatic: true,
-        collisionFilter: {
-          group: 1,
-        },
-      }
-    );
+    inputBox.collisionFilter = {
+      mask: 1,
+    };
+    bottomGround.collisionFilter = {
+      mask: 1,
+    };
     console.log("Collision turned on.");
   }
 }
@@ -188,9 +212,6 @@ var inputBox = Bodies.rectangle(
   $("#name_input").height() + 50,
   {
     isStatic: true,
-    collisionFilter: {
-      group: 1,
-    },
   }
 );
 
@@ -226,9 +247,6 @@ var bottomGround = Bodies.rectangle(
   groundThickness,
   {
     isStatic: true,
-    collisionFilter: {
-      group: 1,
-    },
   }
 );
 

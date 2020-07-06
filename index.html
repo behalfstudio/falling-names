@@ -22,7 +22,19 @@
     <div id="name_input">
       Please enter your name →
       <input type="text" id="name" autofocus="" />
-      <input type="submit" value="Submit" onclick="addName()" />
+      <input type="submit" id="btn" value="Submit" onclick="addName()" />
+
+      <script>
+        // Get the input field
+        var input = document.getElementById("name");
+
+        input.addEventListener("keyup", function (event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("btn").click();
+          }
+        });
+      </script>
     </div>
 
     <script></script>
