@@ -1,8 +1,8 @@
 @font-face {
   font-family: "Space Grotesk";
-  src: url("assets/fonts/SpaceGrotesk-Medium.woff") format(woff);
-  src: url("assets/fonts/SpaceGrotesk-Medium.woff2") format(woff2);
-  src: url("assets/fonts/SpaceGrotesk-Medium.eot") format(eot);
+  src: url("SpaceGrotesk-Medium.woff") format(woff);
+  src: url("SpaceGrotesk-Medium.woff2") format(woff2);
+  src: url("SpaceGrotesk-Medium.eot") format(eot);
   font-display: "Space Grotesk";
 }
 
