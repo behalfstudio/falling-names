@@ -161,9 +161,6 @@ function addName() {
         groundThickness,
         {
           isStatic: true,
-          collisionFilter: {
-            mask: 1,
-          },
         }
       );
       World.add(world, bottomGround);

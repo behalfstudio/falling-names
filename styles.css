@@ -14,7 +14,7 @@ body {
   padding: 0;
   width: 100vw;
   height: 100vh;
-  font-family: "Space Grot", sans-serif;
+  font-family: "Space Grot", sans-serif !important;
 }
 
 #falling {
